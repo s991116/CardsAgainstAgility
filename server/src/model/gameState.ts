@@ -1,0 +1,1 @@
+export type GameState = 'drawQuestion' | 'proposeAnswer' | 'selectAnswer';

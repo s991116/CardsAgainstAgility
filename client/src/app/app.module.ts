@@ -17,11 +17,11 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-//import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CreateSessionComponent } from './create-session/create-session.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
-//import { PlanningSessionComponent } from './planning-session/planning-session.component';
+import { GameSessionComponent } from './game-session/game-session.component';
 
 import { ClipboardModule } from 'ngx-clipboard';
 
@@ -32,9 +32,9 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-//    PageNotFoundComponent,
+    PageNotFoundComponent,
     CreateSessionComponent,
-//    PlanningSessionComponent,
+    GameSessionComponent,
   ],
   imports: [
     BrowserModule,

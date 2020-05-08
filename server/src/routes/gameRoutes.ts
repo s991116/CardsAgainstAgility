@@ -18,20 +18,18 @@ export class Routes {
     this.config();
   }
 
-  
   private socketRouting(server: http.Server) {
     this.io = require("socket.io").listen(server, { origins: "*:*" });
     console.log("Socket setup");
-    this.io.on("connection", socket => {
-      socket.on("sessionRoom", sessionRoomID => {
+    this.io.on("connection", (socket) => {
+      socket.on("sessionRoom", (sessionRoomID) => {
         socket.join(sessionRoomID);
       });
       socket.on("disconnect", () => {
-  //      this.gameController.removeDisconnectedUser(socket);
+        this.gameController.removeDisconnectedUser(socket);
       });
     });
   }
-
 
   public routes(app: express.Application, server: http.Server): void {
     this.socketRouting(server);
@@ -40,11 +38,20 @@ export class Routes {
     app.route("*.*").get(express.static(htmlPath, { maxAge: "1h" }));
 
     app.route("/").get((req: Request, res: Response) => {
+      console.log("get file:" + htmlPath);
       res.status(200).sendFile(`/`, { root: htmlPath });
     });
 
     app.route("/session/*").get((req: Request, res: Response) => {
       res.status(200).sendFile(`/`, { root: htmlPath });
+    });
+
+    app.route("/createSession").post(async (req: Request, res: Response) => {
+      this.gameController.createSession(req, res, this.io);
+    });
+
+    app.route("/createUser").post((req: Request, res: Response) => {
+      this.gameController.createUser(req, res, this.io);
     });
   }
 }

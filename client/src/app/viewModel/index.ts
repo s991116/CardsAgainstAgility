@@ -1,0 +1,1 @@
+export { FellowPlayerViewModel } from './fellowPlayerViewModel';

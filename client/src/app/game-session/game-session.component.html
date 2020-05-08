@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <div [hidden]="sessionExists">
+    <div class="row">
+      This Session Do Not Exists.
+    </div>
+    <div class="row">
+      <a routerLink="/" routerLinkActive="active">Create New Session</a>
+    </div>
+  </div>
+  <div [hidden]="!sessionExists">
+    <div class="row">
+      <div class="col-lg-5">
+        <h3>Session: {{ session.name }}</h3>
+      </div>
+      <div class="col-lg-3">
+        <div class="float-right">
+          <button (click)="copyURLToClipboard()">
+            Session Link To Clipboard
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        
+      </div>
+      <div class="col-lg-2">
+        <a routerLink="/" routerLinkActive="active">Create New Session</a>
+      </div>
+    </div>
+  </div>
+</div>
