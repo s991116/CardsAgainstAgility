@@ -4,6 +4,9 @@
   "description": "Online version of Cards Against Agility",
   "main": "index.js",
   "scripts": {
+    "start": "node ./server/dist/index.js",
+    "startMon": "npm --prefix ./server/ start",
+    "buildAndDeploy": "./buildAndDeploy.sh"
   },
   "repository": {
     "type": "git",
