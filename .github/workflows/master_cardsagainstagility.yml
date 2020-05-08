@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'cardsagainstagility'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_20501c1d7fd44ce8955d983caa88ef3a }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_bb9178662a1d4277b4c01cdbf7deca6a }}
         package: .
