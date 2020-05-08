@@ -21,6 +21,24 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-lg-4">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Your name</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            (keyup)="updateNameTerm.next($event.target.value)"
+            ng-model="userName"
+            placeholder="{{ userName }} (Click to rename)"
+            aria-label="Username"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-lg-6">
         
       </div>

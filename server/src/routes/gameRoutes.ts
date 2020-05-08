@@ -53,5 +53,10 @@ export class Routes {
     app.route("/createUser").post((req: Request, res: Response) => {
       this.gameController.createUser(req, res, this.io);
     });
+
+    app.route("/updateName").post((req: Request, res: Response) => {
+      this.gameController.updateName(req, res, this.io);
+    });
+
   }
 }

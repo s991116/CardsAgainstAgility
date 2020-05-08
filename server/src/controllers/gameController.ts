@@ -65,4 +65,32 @@ export class GameController {
     });
   }
 
+  public async updateName(req: Request, res: Response, io: SocketIO.Server) {
+    let sessionId = req.body.id;
+    let userName = req.body.userName;
+    let userId = req.body.userId;
+    console.log("sessionId: " + sessionId);
+    await DB.Models.Session.Model.findById(sessionId, async (err: any, session: any) => {
+      if (session) {
+        let user = session.users.find((i: any) => i._id === userId);
+        if (user) {
+          user.name = userName;
+          await session.save();
+          io.in(sessionId).emit("status", session);
+          res.json(session);
+        } else {
+          res.status(400).json({
+            status: "error",
+            error: "userID do not exists",
+          });
+        }
+      } else {
+        res.status(400).json({
+          status: "error",
+          error: "sessionId do not exists",
+        });
+      }
+    });
+  }
+
 }
