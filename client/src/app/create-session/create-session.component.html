@@ -1,26 +1,28 @@
 <!-- app.component.html -->
 <div class="container">
   <div class="row">
-    <form
-      name="sessionForm"
-      #userForm="ngForm"
-      (ngSubmit)="submitForm(userForm)"
-      #sessionForm="ngForm"
-    >
-      <div class="form-group">
-        <label for="sessionName">Session name</label>
-        <input
-          type="text"
-          class="form-control"
-          name="sessionName"
-          #sessionName="ngModel"
-          required
-          ngModel
-        />
-      </div>
-      <button type="submit" class="btn btn-primary">
-        Create Game Session
-      </button>
-    </form>
+    <div class="col-lg-8">
+      <form
+        name="sessionForm"
+        #userForm="ngForm"
+        (ngSubmit)="submitForm(userForm)"
+        #sessionForm="ngForm"
+      >
+        <div class="form-group">
+          <label for="sessionName">Session name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="sessionName"
+            #sessionName="ngModel"
+            required
+            ngModel
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">
+          Create Game Session
+        </button>
+      </form>
+    </div>
   </div>
 </div>

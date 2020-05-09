@@ -50,7 +50,7 @@ export class GameController {
         if (users) {
           users.forEach((item: any, index: any) => {
             if (item.socketId === socket.id) {
-              users.splice(index, 1);
+              session.users.pull(item._id);
             }
           });
         }
@@ -58,13 +58,15 @@ export class GameController {
           if (s) {
             socket.in(sessionId).emit("status", session);
           } else {
-            console.log("Error removing player:" + err);
+            console.log("Error removing player with sockedID: " + socket.id);
+            console.log("Error: " + err);
           }
         });
       }
     });
   }
 
+  
   public async updateName(req: Request, res: Response, io: SocketIO.Server) {
     let sessionId = req.body.id;
     let userName = req.body.userName;

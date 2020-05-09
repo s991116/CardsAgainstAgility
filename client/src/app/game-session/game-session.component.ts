@@ -175,10 +175,7 @@ export class GameSessionComponent implements OnInit {
     session.users.forEach((user) => {
       if (user._id !== this.userId) {
         let cardText = this.getCardText(user, session, true);
-        this.fellowPlayers.push(
-          new FellowPlayerViewModel(user.name, user.played, cardText)
-        );
-      } else {
+       } else {
         let cardText = this.getCardText(user, session, false);
         this.fellowPlayers.unshift(
           new FellowPlayerViewModel(user.name, user.played, cardText)
