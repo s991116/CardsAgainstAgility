@@ -57,6 +57,5 @@ export class Routes {
     app.route("/updateName").post((req: Request, res: Response) => {
       this.gameController.updateName(req, res, this.io);
     });
-
   }
 }

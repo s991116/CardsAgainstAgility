@@ -7,13 +7,14 @@ import { FellowPlayerViewModel } from "../viewModel";
 import { ClipboardService } from "ngx-clipboard";
 import { UpdateNameService } from "../updateName/updateName.service";
 import { Subject } from "rxjs";
+import { Inject, Injectable } from "@angular/core";
+import { SESSION_STORAGE, StorageService } from "ngx-webstorage-service";
 
 @Component({
   selector: "app-game-session",
   templateUrl: "./game-session.component.html",
   styleUrls: ["./game-session.component.css"],
-  providers: [UpdateNameService,
-  ],
+  providers: [UpdateNameService],
 })
 export class GameSessionComponent implements OnInit {
   sessionId: string;
@@ -47,6 +48,7 @@ export class GameSessionComponent implements OnInit {
     private _clipboardService: ClipboardService,
     private http: HttpClient,
     private updateNameService: UpdateNameService,
+    @Inject(SESSION_STORAGE) private storage: StorageService
   ) {}
 
   newRoundForm(): void {
@@ -134,29 +136,34 @@ export class GameSessionComponent implements OnInit {
     this.sessionExists = true;
     this.socket.on("connect", () => {
       this.socket.emit("sessionRoom", this.sessionId);
-          this.http
-            .post("/createUser", {
-              sessionId: this.sessionId,
-              socketId: this.socket.id,
-            })
-            .subscribe(
-              (val: User) => {
-                this.userName = val.name;
-                this.userId = val._id;
-                this.sessionExists = true;
-                //this.cardDeckService.getCardDeck(val.cardDeckName).then(c => { this.cards = c.cards});
-                this.updateNameService.updateName(
-                  this.sessionId,
-                  this.userId,
-                  this.updateNameTerm
-                );              
-              },
-              (response) => {
-                this.sessionExists = false;
-              },
-              () => {}
+      let storageUser: User;
+      if (this.storage.has("SessionUser")) {
+        storageUser = this.storage.get("SessionUser");
+      }
+      this.http
+        .post("/createUser", {
+          sessionId: this.sessionId,
+          socketId: this.socket.id,
+          storageUser: storageUser,
+        })
+        .subscribe(
+          (val: User) => {
+            this.userName = val.name;
+            this.userId = val._id;
+            this.sessionExists = true;
+            this.updateNameService.updateName(
+              this.sessionId,
+              this.userId,
+              this.updateNameTerm
             );
-      });
+            this.storage.set("SessionUser", val);
+          },
+          (response) => {
+            this.sessionExists = false;
+          },
+          () => {}
+        );
+    });
 
     this.socket.on("status", (data) => {
       this.session = data as Session;
@@ -173,18 +180,14 @@ export class GameSessionComponent implements OnInit {
     this.setButtonState(session.state);
     this.fellowPlayers = [];
     session.users.forEach((user) => {
-      if (user._id !== this.userId) {
-        let cardText = this.getCardText(user, session, true);
-       } else {
-        let cardText = this.getCardText(user, session, false);
-        this.fellowPlayers.unshift(
-          new FellowPlayerViewModel(user.name, user.played, cardText)
-        );
-        if (user.isPlaying) {
-          this.selectedPlayingType = this.selectedPlayingTypes[0];
-        } else {
-          this.selectedPlayingType = this.selectedPlayingTypes[1];
-        }
+      let cardText = this.getCardText(user, session, false);
+      this.fellowPlayers.push(
+        new FellowPlayerViewModel(user.name, user.played, cardText)
+      );
+      if (user.isPlaying) {
+        this.selectedPlayingType = this.selectedPlayingTypes[0];
+      } else {
+        this.selectedPlayingType = this.selectedPlayingTypes[1];
       }
     });
   }

@@ -25,6 +25,8 @@ import { GameSessionComponent } from './game-session/game-session.component';
 
 import { ClipboardModule } from 'ngx-clipboard';
 
+import { StorageServiceModule } from 'ngx-webstorage-service';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -45,6 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatExpansionModule,
     MatButtonModule,
     MatListModule,
+    StorageServiceModule,
     AppRoutingModule,
     HttpClientModule,
     TranslateModule.forRoot({
